@@ -1,8 +1,38 @@
-//import React from 'react';
 import React, { useState } from 'react';
-import Todos from "./components/Todos.js";
 import './App.css';
 
+const Todo = ({ todo }) => 
+  <div className="todo">
+    {todo.text}
+  </div> //JSX element
+
+function TodoForm({ addTodo }) {
+
+  // value - names the state
+  // setValue - sets the state
+  const [value, setValue] = useState("");
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (!value) {
+      return; // if there is no value, end here.
+    };
+    addTodo(value);
+    setValue("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="input"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
+    </form>
+  );
+}
 
 function App() {
   // todos - names the state
@@ -13,14 +43,13 @@ function App() {
     { text: "Plan how to create a todo list." },
     { text: "Play some video games." },
     { text: "Clean up the bedroom" },
-    { text: "Empty the trash." },
-
+    { text: "Empty the trash." }
   ]);
 
-  const Todo = ({ todo }) => 
-  <div className="todo">
-    {todo.text}
-  </div>
+  const addTodo = text => {
+    const newTodos = [...todos, { text }];
+    setTodos(newTodos);
+  };
 
   return (
     <div className="app">
@@ -32,6 +61,7 @@ function App() {
             todo={todo}
           />
         ))}
+        <TodoForm addToDo={addTodo} />
       </div>
     </div>
   );
