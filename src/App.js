@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 
-/**
-const Todo = ({ todo }) => 
-  <div className="todo">
-    {todo.text}
-  </div> //JSX element
-*/
-
 function TodoForm({ addTodo }) {
+
+  /*
+  A small form that allows adding a todo list item.
+  */
 
   // value - names the state
   // setValue - sets the state
@@ -36,7 +33,13 @@ function TodoForm({ addTodo }) {
   );
 }
 
-function Todo({ todo, index, completeTodo}) {
+function Todo({ todo, index, completeTodo, removeTodo }) {
+
+  /*
+  completeTodo - Button element to complete the item on the list.
+  removeTodo - Button element to remove the item on the list.
+  */
+
   return (
     <div
       className="todo"
@@ -47,11 +50,19 @@ function Todo({ todo, index, completeTodo}) {
       <div>
         <button onClick={() => completeTodo(index)}>Complete Item</button>
       </div>
+      <div>
+        <button onClick={() => removeTodo(index)}>X</button>
+      </div>
     </div> //JSX element
   );
 }
 
 function App() {
+
+  /*
+  Main function.
+  */
+
   // todos - names the state
   // setTodos - sets the state
   const [todos, setTodos] = useState([  //functional component
@@ -86,6 +97,14 @@ function App() {
     setTodos(newTodos);
   };
 
+  const removeTodo = index => { //removes todo item list
+  
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  
+  };
+
   return (
     <div className="app">
       <div className="todo-list">
@@ -95,6 +114,7 @@ function App() {
             index={index}
             todo={todo}
             completeTodo={completeTodo}
+            removeTodo={removeTodo}
           />
         ))}
       <div className="todo-list">
